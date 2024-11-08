@@ -74,5 +74,4 @@ const createPhotoDescription = () => ({
 //Функция создает описание
 const photoDescription = Array.from({length: PUBLISHED_IMG_COUNT}, createPhotoDescription);
 
-console.log(photoDescription);
-
+photoDescription();

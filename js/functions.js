@@ -27,3 +27,21 @@ const getNumber = (string) => {
 };
 
 getNumber(' агент, 10.7');
+
+
+//Переводит часы в минуты.
+const getMinutes = (time) => {
+  const start = time.split(':').map((elements) => parseInt(elements, 10));
+  start[0] *= 60;
+  const minutes = start.reduce((sum, elements) => sum + elements, 0);
+  return minutes;
+};
+
+const getTime = (startHour, endHour, startMeeting, durationMeeting) => {
+  const startMinutes = getMinutes(startHour);
+  const endMinutes = getMinutes(endHour);
+  const startHourMeeting = getMinutes(startMeeting);
+  return (startHourMeeting + durationMeeting <= endMinutes && startMinutes <= startHourMeeting);
+};
+
+getTime('8:05', '17:05', '08:10', 50);

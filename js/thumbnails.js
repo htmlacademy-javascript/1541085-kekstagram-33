@@ -22,3 +22,5 @@ photoData.forEach(({url, description, likes, comments}) => {
 });
 
 pictures.append(photoDataFragment);
+
+export { pictures, photoData};

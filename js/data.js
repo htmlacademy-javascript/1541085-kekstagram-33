@@ -1,9 +1,22 @@
-import {getRandomInteger, getUniqueNumber} from './util.js';
+import { getRandomInteger, getRandom } from './util.js';
+let id = 0;
+const DESCRIPTION = [
+  'Дал, дал, ушел',
+  'Запомните, а то забудете',
+  'Тарелку после гречки сразу мой',
+  'На рахlате же есть',
+];
 
-const PUBLISHED_IMG_COUNT = 25;
+const MESSAGE = [
+  'Всё отлично!',
+  'В целом всё неплохо. Но не всё.',
+  'Когда вы делаете фотографию, хорошо бы убирать палец из кадра. В конце концов это просто непрофессионально.',
+  'Моя бабушка случайно чихнула с фотоаппаратом в руках и у неё получилась фотография лучше.',
+  'Я поскользнулся на банановой кожуре и уронил фотоаппарат на кота и у меня получилась фотография лучше.',
+  'Лица у людей на фотке перекошены, как будто их избивают. Как можно было поймать такой неудачный момент?!',
+];
 
-//Массив имен для комментариев
-const NAMES = [
+const NAME = [
   'Кагlбула',
   'Абджапар',
   'Бахъухъи',
@@ -13,53 +26,59 @@ const NAMES = [
   'Боря',
 ];
 
-//Массив описаний для фотографий
-const DESCRIPTION = [
-  'Дал, дал, ушел',
-  'Запомните, а то забудете',
-  'Тарелку после гречки сразу мой',
-  'На рахlате же есть',
-];
+const QUANTITY = 25;
 
-//Массив комментариев
-const MESSAGE = [
-  'Все отлично!',
-  'В целом всё неплохо. Но не всё.',
-  'Когда вы делаете фотографию, хорошо бы убирать палец из кадра. В конце концов это просто непрофессионально.',
-  'Моя бабушка случайно чихнула с фотоаппаратом в руках и у неё получилась фотография лучше.',
-  'Я поскользнулся на банановой кожуре и уронил фотоаппарат на кота и у меня получилась фотография лучше.',
-  'Лица у людей на фотке перекошены, как будто их избивают.',
-  'Как можно было поймать такой неудачный момент?!',
-];
+const PHOTO_ID = {
+  min: 1,
+  max: 25
+};
 
+const ID_COMMENTS = {
+  min: 1,
+  max: 200
+};
 
-const photoId = getUniqueNumber();
-const commentId = getUniqueNumber();
-const urlNumber = getUniqueNumber();
+const NUMBER_OF_COMMENTS = {
+  min: 0,
+  max: 30
+};
 
+const LIKES = {
+  min: 15,
+  max: 200
+};
 
-//Функция дает случайный элемент массива
-const getRandomArrayElement = (elements) => elements[getRandomInteger(0, elements.length - 1)];
+const AVATAR = {
+  min: 1,
+  max: 6
+};
 
+const generatePhotoId = getRandom(PHOTO_ID.min, PHOTO_ID.max);
+const generateIdComments = getRandom(ID_COMMENTS.min, ID_COMMENTS.max);
 
-//Функция создает комментарии
-const getComment = () => ({
-  id: commentId(),
-  avatar: `img/avatar-${getRandomInteger(1, 6)}.svg`,
-  message: getRandomArrayElement(MESSAGE),
-  name: getRandomArrayElement(NAMES),
+const generateGetAccess = (el) => el[getRandomInteger(0, el.length - 1)];
+
+const getComment = function () {
+  const array = [];
+  for (let i = 0; i < getRandomInteger(NUMBER_OF_COMMENTS.min, NUMBER_OF_COMMENTS.max); i++) {
+    array.push({
+      id: generateIdComments(),
+      avatar: `img/avatar-${getRandomInteger(AVATAR.min, AVATAR.max)}.svg`,
+      message: generateGetAccess(MESSAGE),
+      name: generateGetAccess(NAME)
+    });
+  }
+  return array;
+};
+
+const getObject = () => ({
+  id: id++,
+  url: `photos/${generatePhotoId()}.jpg`,
+  description: generateGetAccess(DESCRIPTION),
+  likes: getRandomInteger(LIKES.min, LIKES.max),
+  comments: getComment()
 });
 
-//Функция создает объект
-const createPhotoDescription = () => ({
-  id: photoId(),
-  url: `photos/${urlNumber()}.jpg`,
-  description: getRandomArrayElement(DESCRIPTION),
-  likes: getRandomInteger(15, 200),
-  comments: Array.from({length: getRandomInteger(0, 30)}, getComment),
-});
+const generateData = () => Array.from({ length: QUANTITY }, getObject);
 
-//Функция создает описание
-const photoDescription = () => Array.from({length: PUBLISHED_IMG_COUNT}, createPhotoDescription);
-
-export {photoDescription};
+export {generateData};

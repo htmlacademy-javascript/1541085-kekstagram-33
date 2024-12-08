@@ -1,19 +1,26 @@
-//Функция дает случайное число
-const getRandomInteger = (minNumber, maxNumber) => {
-  const minValue = Math.ceil(Math.min(Math.abs(minNumber), Math.abs(maxNumber)));
-  const maxValue = Math.floor(Math.max(Math.abs(minNumber), Math.abs(maxNumber)));
-  return Math.floor(Math.random() * (maxValue - minValue + 1) + minValue);
-};
+function getRandomInteger(min, max) {
+  const lower = Math.ceil(Math.min(Math.abs(min), Math.abs(max)));
+  const upper = Math.floor(Math.max(Math.abs(min), Math.abs(max)));
+  const result = Math.random() * (upper - lower + 1) + lower;
 
+  return Math.floor(result);
+}
 
-//Функция дает уникальное число
-const getUniqueNumber = () => {
-  let number = 1;
+const getRandom = (min, max) => {
+  const array = [];
   return function () {
-    return number++;
+    let number = getRandomInteger(min, max);
+    if (array.length >= max - min + 1) {
+      return null;
+    }
+    while (array.includes(number)) {
+      number = getRandomInteger(min, max);
+    }
+    array.push(number);
+    return number;
   };
 };
 
 const isEscapeKey = (evt) => evt.key === 'Escape';
 
-export { getRandomInteger, getUniqueNumber, isEscapeKey };
+export { getRandomInteger, getRandom, isEscapeKey };

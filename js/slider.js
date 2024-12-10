@@ -11,7 +11,7 @@ const MAX = 1;
 const MARVIN_MAX = 100;
 const PHOBOS_MAX = 3;
 
-
+// Создание слайдера
 noUiSlider.create(sliderElement, {
   range: {
     min: 0,
@@ -21,7 +21,7 @@ noUiSlider.create(sliderElement, {
   step: 0.1,
 });
 
-
+// Функция, возвращающая значение для фильтра
 const addEffect = (value, index) => {
   switch (index) {
     case 1:
@@ -37,7 +37,7 @@ const addEffect = (value, index) => {
   }
 };
 
-
+// Функция, задающая значение интенсивности эффекта при изменении
 const updateSlider = (index) => {
   sliderElement.noUiSlider.on('update', () => {
     inputValue.value = sliderElement.noUiSlider.get();
@@ -45,7 +45,7 @@ const updateSlider = (index) => {
   });
 };
 
-
+// Функция для изменения настроек слайдера
 const changeSliderOptions = (min, max, step) => {
   sliderElement.noUiSlider.updateOptions({
     range: {
@@ -56,7 +56,6 @@ const changeSliderOptions = (min, max, step) => {
     step: step
   });
 };
-
 
 for (let i = 0; i < items.length; i++) {
   items[i].addEventListener('click', () => {
@@ -87,3 +86,5 @@ for (let i = 0; i < items.length; i++) {
     }
   });
 }
+
+export {changeSliderOptions};

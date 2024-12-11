@@ -1,13 +1,12 @@
 import { renderPhotoList } from './thumbnails.js';
 import { debounce } from './util.js';
-
-const imgFilters = document.querySelector('.img-filters');
-let currentFilter = 'filter-default';
-const debounceRender = debounce(renderPhotoList);
-let photos = [];
 const MIN_PHOTO_COUNT = 0;
 const MAX_PHOTO_COUNT = 10;
 const NUMBER = 0.5;
+const imgFilters = document.querySelector('.img-filters');
+const debounceRender = debounce(renderPhotoList);
+let currentFilter = 'filter-default';
+let photos = [];
 
 const addSort = () => {
   let sortPhotos = [];
@@ -23,7 +22,7 @@ const addSort = () => {
   debounceRender(sortPhotos);
 };
 
-const onSortChange = (evt) => {
+const onButtonClick = (evt) => {
   const activeButton = document.querySelector('.img-filters__button--active');
   activeButton.classList.toggle('img-filters__button--active');
   evt.target.classList.toggle('img-filters__button--active');
@@ -33,7 +32,7 @@ const onSortChange = (evt) => {
 
 const adjustSort = (photoData) => {
   imgFilters.classList.remove('img-filters--inactive');
-  imgFilters.addEventListener('click', onSortChange);
+  imgFilters.addEventListener('click', onButtonClick);
   photos = photoData;
 };
 

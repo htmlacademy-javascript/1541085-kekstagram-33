@@ -2,7 +2,6 @@ import { isEscapeKey, openPopup, closePopup } from './util.js';
 import { pictures, createErrorComment } from './thumbnails.js';
 import { getData } from './api.js';
 
-
 const LIMIT_OF_COMMENT = 5;
 const body = document.querySelector('body');
 const bigPicture = document.querySelector('.big-picture');
@@ -22,6 +21,7 @@ const pictureDataFragment = document.createDocumentFragment();
 const onDocumentKeydown = (evt) => {
   if (isEscapeKey(evt)) {
     evt.preventDefault();
+    body.classList.remove('modal-open');
     bigPicture.classList.add('hidden');
   }
 };
@@ -77,7 +77,7 @@ pictures.addEventListener('click', (evt) => {
         limit += LIMIT_OF_COMMENT;
         createElements(comments, index, limit);
       };
-      const modalClose = () => {
+      const onPictureClose = () => {
         closePopup(bigPicture, onDocumentKeydown);
         body.classList.remove('modal-open');
         loadMoreButton.removeEventListener('click', onLoadButtonClick);
@@ -98,8 +98,9 @@ pictures.addEventListener('click', (evt) => {
           loadMoreButton.classList.add('hidden');
         }
       }
-      closeButton.addEventListener('click', modalClose);
-      overlay.addEventListener('click', modalClose);
+      closeButton.addEventListener('click', onPictureClose);
+      document.addEventListener('keydown', onPictureClose);
+      overlay.addEventListener('click', onPictureClose);
     });
   };
   getData(createErrorComment).then((data) => getFullscreen(data));

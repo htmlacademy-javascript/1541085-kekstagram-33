@@ -1,8 +1,3 @@
-const sliderContainer = document.querySelector('.img-upload__effect-level');
-const sliderElement = document.querySelector('.effect-level__slider');
-const inputValue = document.querySelector('.effect-level__value');
-const items = document.querySelectorAll('.effects__item');
-const image = document.querySelector('.img-upload__preview');
 const STEP = 0.1;
 const MARVIN_STEP = 1;
 const MIN = 0;
@@ -10,6 +5,12 @@ const HEAT_MIN = 1;
 const MAX = 1;
 const MARVIN_MAX = 100;
 const PHOBOS_MAX = 3;
+const sliderContainer = document.querySelector('.img-upload__effect-level');
+const sliderElement = document.querySelector('.effect-level__slider');
+const inputValue = document.querySelector('.effect-level__value');
+const items = document.querySelectorAll('.effects__item');
+const image = document.querySelector('.img-upload__preview').children[0];
+
 
 // Создание слайдера
 noUiSlider.create(sliderElement, {
@@ -52,19 +53,30 @@ const changeSliderOptions = (min, max, step) => {
       min: min,
       max: max
     },
-    start: 0,
-    step: step
+    start: 100,
+    step: step,
+    format: {
+      to: function (value) {
+        if (Number.isInteger(value)) {
+          return value.toFixed(0);
+        }
+        return value.toFixed(1);
+      },
+      from: function (value) {
+        return parseFloat(value);
+      },
+    },
   });
 };
 
 for (let i = 0; i < items.length; i++) {
   items[i].addEventListener('click', () => {
     inputValue.value = 0;
-    sliderContainer.classList.remove('hidden');
     if (i === 0) {
       sliderContainer.classList.add('hidden');
       image.style.filter = '';
     } else {
+      sliderContainer.classList.remove('hidden');
       switch (i) {
         case 1:
           changeSliderOptions(MIN, MAX, STEP);

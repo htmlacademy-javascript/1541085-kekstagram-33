@@ -1,3 +1,5 @@
+const NUMBER_SYSTEM_CALCULUS = 10;
+const MIN = 0;
 function getRandomInteger(min, max) {
   const lower = Math.ceil(Math.min(Math.abs(min), Math.abs(max)));
   const upper = Math.floor(Math.max(Math.abs(min), Math.abs(max)));
@@ -6,16 +8,16 @@ function getRandomInteger(min, max) {
 }
 
 const getRandom = (min, max) => {
-  const array = [];
+  const arrays = [];
   return function () {
     let number = getRandomInteger(min, max);
-    if (array.length >= max - min + 1) {
+    if (arrays.length >= max - min + 1) {
       return null;
     }
-    while (array.includes(number)) {
+    while (arrays.includes(number)) {
       number = getRandomInteger(min, max);
     }
-    array.push(number);
+    arrays.push(number);
     return number;
   };
 };
@@ -39,10 +41,10 @@ const getNumber = (string) => {
     if (isNaN(string[i])) {
       number += '';
     } else {
-      number += parseInt(string[i], 10);
+      number += parseInt(string[i], NUMBER_SYSTEM_CALCULUS);
     }
   }
-  if (string < 0) {
+  if (string < MIN) {
     number *= 1;
   }
   return (number === '') ? 'NaN' : number;
